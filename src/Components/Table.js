@@ -1,32 +1,29 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {
-    deleteTodo,
-    toggleTodo,
-    setVisibilityFilter
-} from "../Actions/ActionCreator";
+import {FaTrash, FaCheckCircle} from 'react-icons/fa';
+import { deleteTodo,toggleTodo,setVisibilityFilter} from "../Actions/ActionCreator";
 import {bindActionCreators} from 'redux';
-import {SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE} from '../Actions/ActionTypes';
+import {ShowAll, ShowCompleted, ShowActive} from '../Actions/ActionTypes';
 class Table extends Component {
     render() {
         return (
-            <div className="col-lg-10 offset-lg-1 col-md-10 col-sm-12 col-xs-12">
-            <nav style={{marginTop:"60px"}}>
-                <ol className="breadcrumb">
-                <li className={"breadcrumb-item" + (this.props.visibilityFilter===SHOW_ALL?'active': '')} onClick={()=>this.props.setVisibilityFilter(SHOW_ALL)}>
+            <div className="col-lg-10 offset-lg-1 col-md-10 col-sm-10 col-xs-12 re">
+            <nav aria-label="breadcrumb" >
+                <ol className="breadcrumb nav d-flex justify-content-center">
+                <li className="breadcrumb-item cur"  onClick={()=>this.props.setVisibilityFilter(ShowAll)}>
                 All
                 </li>
                 
-                <li className={"breadcrumb-item" + (this.props.visibilityFilter===SHOW_COMPLETED?'active': '')} onClick={()=>this.props.setVisibilityFilter(SHOW_COMPLETED)}>
+                <li className="breadcrumb-item cur" onClick={()=>this.props.setVisibilityFilter(ShowCompleted)}>
                 Completed
                 </li>
-                <li className={"breadcrumb-item" + (this.props.visibilityFilter===SHOW_ACTIVE?'active': '')} onClick={()=>this.props.setVisibilityFilter(SHOW_ACTIVE)}>
+                <li className="breadcrumb-item cur" onClick={()=>this.props.setVisibilityFilter(ShowActive)}>
                 Active
                 </li>
                 </ol>
             </nav>
                 {this.props.todos.length !==0?(
-                    <table style={{marginTop:"60px"}} className="table table-hover table-dark">
+                    <table  className="table table-hover table-dark">
                         <thead>
                             <tr>
                                 <th scope="col">Todos</th>
@@ -35,16 +32,14 @@ class Table extends Component {
                         </thead>
                         {this.props.todos.map(todo=>(
                             <tr key={todo.id}>
-                                <td style={{textDecoration:todo.completed?"line-through":"none"}}>
+                                <td style={{color:todo.completed?"green":"none"}}>
                                     {todo.text} {todo.completed === true?"(completed)":""}
                                 </td>
                                 <td>
-                                    <span className="fas fa-minus-circle" onClick={()=>this.props.deleteTodo(todo.id)} style={{color:"white", fontSize:"20pt", marginRight:"20px"}} />
-                                    <span
-                      className="fas fa-check-circle"
-                      onClick={() => this.props.toggleTodo(todo.id)}
-                      style={{ color: "white", fontSize: "20pt" }}
-                    />
+                          
+                                    <FaTrash className="fa" onClick={()=>this.props.deleteTodo(todo.id)} />
+                                    <FaCheckCircle className="fa" onClick={() => this.props.toggleTodo(todo.id)} />
+                                    
           
                                 </td>
                             </tr>
@@ -67,11 +62,11 @@ class Table extends Component {
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
-    case SHOW_ALL:
+    case ShowAll:
       return todos;
-    case SHOW_COMPLETED:
+    case ShowCompleted:
       return todos.filter(t => t.completed);
-    case SHOW_ACTIVE:
+    case ShowActive:
       return todos.filter(t => !t.completed);
     default:
       throw new Error("Unknown filter: " + filter);

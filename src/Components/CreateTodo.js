@@ -13,18 +13,33 @@ class CreateTodo extends Component {
     }
     onChangeTodoText(e){
         this.setState({
-            todotext:e.target.value
+            todotext:e.target.value 
         });
     }
     render() {
         return (
-            <div className="form-group row">
-            <div className="col-sm-10">
-                <input className="form-control" required type="text"  placeholder="what needs to be done?" onChange={this.onChangeTodoText} value={this.state.todotext} type="text"  />
-                <button type="button" onClick={()=>this.setState({todotext:''})} style={{marginTop:"25px", marginRight:"15px"}} className="btn btn-danger">cancel</button>
-                <button type="button" onClick={()=>{this.props.addTodo(this.state.todotext); this.setState({todotext:''})}} style={{marginTop:"25px"}} className="btn btn-success">Add Todo</button>
+            <React.Fragment>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12 m-auto">
+                        <div className="card border border-danger m-2 mt-5 p-4">
+                           <form>
+                           <div className="form-group">
+            <div className="col-md-10 m-auto">
+                <input className="form-control"   placeholder="what needs to be done?" onChange={this.onChangeTodoText} value={this.state.todotext}  required   />
+                <div className="d-flex justify-content-around" required>
+                <button  type="button" onClick={()=>this.setState({todotext:''})}  className="btn btn-danger">cancel</button>
+                <button  type="submit" onClick={()=>{this.props.addTodo(this.state.todotext); this.setState({todotext:''})}}  className="btn btn-success">Add Todo</button>
+                </div>
             </div>
             </div>
+                           </form>
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+            </React.Fragment>
         )
     }
 }
